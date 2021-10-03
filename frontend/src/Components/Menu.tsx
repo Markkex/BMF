@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText } from "@mui/material";
+import { Divider, List, ListItem, ListItemText } from "@mui/material";
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 const Menu: FC = () => {
@@ -7,17 +7,20 @@ const Menu: FC = () => {
       <List component="nav">
         <ListItem>
           <Link to="/">
+            <img
+              src="https://bmf.pt/wp-content/uploads/2018/06/cropped-BMF-e1528127361864.jpg"
+              alt="logo"
+            />
+          </Link>
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <Link to="/novoprocesso">
             <ListItemText primary="Novo Processo" />
           </Link>
         </ListItem>
+        <Divider />
       </List>
-      <Link to="/">
-        <img
-          src="https://bmf.pt/wp-content/uploads/2018/06/cropped-BMF-e1528127361864.jpg"
-          alt="logo"
-        />
-      </Link>
-      <Link to="/novoprocesso">Novo Processo</Link>
     </div>
   );
 };
