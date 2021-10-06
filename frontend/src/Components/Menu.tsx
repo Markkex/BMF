@@ -8,7 +8,7 @@ const Menu: FC = () => {
         <ListItem>
           <Link to="/">
             <img
-              src="https://bmf.pt/wp-content/uploads/2018/06/cropped-BMF-e1528127361864.jpg"
+              src="https://www.bmf.pt/wp-content/uploads/2018/06/cropped-BMF-e1528127361864.jpg"
               alt="logo"
             />
           </Link>

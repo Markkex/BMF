@@ -18,13 +18,17 @@ namespace backend.Models
 
         public byte VisitInterior { get; set; }
 
-        [Required]
+        public int BankId { get; set; }
+        public int EntityId { get; set; }
+        public int HouseTypeId { get; set; }
+
+        
         public virtual Entity Entity { get; set; }
 
-        [Required]
+        
         public virtual HouseType HouseType { get; set; }
 
-        [Required]
+        
         public virtual Bank Bank { get; set; }
 
         public Client Client { get; set; }

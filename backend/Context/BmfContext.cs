@@ -1,7 +1,8 @@
 ﻿using backend.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,9 +10,11 @@ namespace backend.Context
 {
     public class BmfContext : DbContext
     {
-        public BmfContext() : base()
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=BMF")
+                .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, Microsoft.Extensions.Logging.LogLevel.Information)
+                .EnableSensitiveDataLogging();
         }
 
         public DbSet<Bank> Banks { get; set; }
