@@ -20,6 +20,12 @@ const Menu: FC = () => {
           </Link>
         </ListItem>
         <Divider />
+        <ListItem button>
+          <Link to="/processosconcluidos">
+            <ListItemText primary="Processos Concluidos" />
+          </Link>
+        </ListItem>
+        <Divider />
       </List>
     </div>
   );

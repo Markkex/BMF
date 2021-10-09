@@ -19,11 +19,107 @@
   height: 150px;
 }
 
-.CreateProcess {
-  display: block;
+.createprocess {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
+}
+
+.createprocess h1 {
+  text-align: center;
+}
+
+.createprocess form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.createprocess .processdetails {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 10px;
+}
+.createprocess .housedetails {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+}
+
+.createprocess .locationdetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.createprocess .clientdetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.locationdetails .MuiFormControl-root {
+  padding: 5px 0;
+}
+
+.clientdetails .MuiFormControl-root {
+  padding: 5px 0;
+}
+
+.createprocess .areadetails {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 10px;
+}
+
+.datesdetails {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.printimage {
+  display: none;
+}
+
+.buttonprint {
+  display: flex;
+  justify-content: center;
+}
+
+.gridboard {
+  width: 100%;
+}
+.coursetable {
+  padding: 10px;
   width: 100%;
 }
 
-.CreateProcess h1 {
-  text-align: center;
+.coursetable table {
+  width: 100%;
+}
+
+.coursetable table,
+th {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+
+
+@media print {
+  .printimage {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
+  .buttonprint {
+    display: none;
+  }
+  .createprocess {
+    display: block;
+  }
+  .Menu {
+    display: none;
+  }
 }
