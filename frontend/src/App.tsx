@@ -17,22 +17,25 @@ Axios
 }
 
 function App() {
-  const [process, setProcess] = useState<Array<string | number | Date>>([]);
+  const [processes, setProcesses] = useState<Array<any>>([]);
   return (
     <div className='App'>
       <Router>
         <Menu />
-        <CourseTable process={process} setProcess={setProcess} />
         <Switch>
           <Route
             path='/novoprocesso'
             render={(props) => (
-              <CreateProcess setProcess={setProcess} process={process} />
+              <CreateProcess setProcesses={setProcesses} processes={processes} />
             )}
           />
           <Route
             path='/processosconcluidos'
-            render={(props) => <DataTable process={process} />}
+            render={(props) => <DataTable processes={processes} />}
+          />
+          <Route
+            path='/'
+            render={(props) => <CourseTable processes={processes} setProcesses={setProcesses} />}
           />
         </Switch>
       </Router>

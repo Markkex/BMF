@@ -4,20 +4,20 @@ import { DateTimePicker, LocalizationProvider } from "@material-ui/lab";
 import { Button, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 interface Props {
-  setProcess: (val: any) => void;
-  process: any;
+  setProcesses: (val: any) => void;
+  processes: Array<any>;
 }
 
-const CreateProcess: FC<Props> = ({ setProcess, process }) => {
+const CreateProcess: FC<Props> = ({ setProcesses, processes }) => {
   const [creationDate, setCreationDate] = useState<Date | string>(new Date());
-  const [initialDate, setInitialDate] = useState<Date | string>(new Date());
+  const [visitDate, setVisitDate] = useState<Date | string>(new Date());
 
   const [entity, setEntity] = useState<string>();
   const [appraiser, setAppraiser] = useState<string>();
   const [processNumber, setProcessNumber] = useState<string>();
   const [vRef, setVRef] = useState<string>();
-  const [interiorVisit, setInteriorVisit] = useState<string | number>();
-  const [houseType, setHouseType] = useState<string | number>();
+  const [interiorVisit, setInteriorVisit] = useState<string | number>("yes");
+  const [houseType, setHouseType] = useState<string | number>(1);
   const [address, setAddress] = useState<string>();
   const [district, setDistrict] = useState<string>();
   const [county, setCounty] = useState<string>();
@@ -27,14 +27,15 @@ const CreateProcess: FC<Props> = ({ setProcess, process }) => {
   const [clientContact, setClientContact] = useState<string>();
   const [latitude, setLatitude] = useState<string>();
   const [longitude, setLongitude] = useState<string>();
+  
 
   const handleForm = (e: React.FormEvent) => {
     e.preventDefault();
-    setProcess([
-      ...process,
+    setProcesses([
+      ...processes,
       {
-        creationDate: creationDate,
-        initialDate: initialDate,
+        creationDate: creationDate.toString(),
+        visitDate: visitDate.toString(),
         entity: entity,
         appraiser: appraiser,
         processNumber: processNumber,
@@ -50,12 +51,13 @@ const CreateProcess: FC<Props> = ({ setProcess, process }) => {
         clientContact: clientContact,
         latitude: latitude,
         longitude: longitude,
+        
       },
     ]);
   };
 
   const handlePickerVisit = (value: any) => {
-    setInitialDate(value);
+    setVisitDate(value);
   };
   const handlePickerCreation = (value: any) => {
     setCreationDate(value);
@@ -84,7 +86,7 @@ const CreateProcess: FC<Props> = ({ setProcess, process }) => {
             <DateTimePicker
               label='Visita'
               onChange={handlePickerVisit}
-              value={initialDate}
+              value={visitDate}
               renderInput={(params: any) => <TextField {...params} />}
             />
           </LocalizationProvider>
