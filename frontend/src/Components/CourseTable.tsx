@@ -1,15 +1,25 @@
 import { Box, Modal } from "@mui/material";
 import React, { FC, useState } from "react";
-import TableData from "./TableData";
-
+import LaunchIcon from "@mui/icons-material/Launch";
 interface Props {
   setProcesses: (val: any) => void;
   processes: Array<any>;
 }
 const CourseTable: FC<Props> = ({ processes, setProcesses }) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const diferenceDates = (value: any) => {
+    const dateNow = new Date();
+    const dateCreation = new Date(`${value}`);
+
+    const diffTime = Math.abs(dateNow.valueOf() - dateCreation.valueOf());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
+  const dateVisitTrimmed = (value: any) => {
+    const visitDate = new Date(value);
+    const dateVisit = visitDate.toLocaleDateString();
+    return dateVisit;
+  };
   return (
     <div className='coursetable'>
       <table>
@@ -25,13 +35,22 @@ const CourseTable: FC<Props> = ({ processes, setProcesses }) => {
           </tr>
         </thead>
         {processes.map((process: any) => (
-          <TableData key={process.processNumber} process={process} handleOpen={handleOpen} />
+          <tbody>
+            <tr>
+              <td>{process.processNumber}</td>
+              <td>{process.vRef}</td>
+              <td>{process.clientName}</td>
+              <td>{process.clientContact}</td>
+              <td>{process.address}</td>
+              <td>{dateVisitTrimmed(process.visitDate)}</td>
+              <td>{diferenceDates(process.creationDate)}</td>
+              <td>
+                <LaunchIcon />
+              </td>
+            </tr>
+          </tbody>
         ))}
       </table>
-
-      <Modal open={open} onClose={handleClose}>
-        <Box></Box>
-      </Modal>
     </div>
   );
 };

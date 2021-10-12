@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CreateProcess from "./Components/CreateProcess";
 import DataTable from "./Components/DataTable";
 import CourseTable from "./Components/CourseTable";
+
 {
   /* 
 
@@ -18,6 +19,7 @@ Axios
 
 function App() {
   const [processes, setProcesses] = useState<Array<any>>([]);
+  
   return (
     <div className='App'>
       <Router>
@@ -26,7 +28,10 @@ function App() {
           <Route
             path='/novoprocesso'
             render={(props) => (
-              <CreateProcess setProcesses={setProcesses} processes={processes} />
+              <CreateProcess
+                setProcesses={setProcesses}
+                processes={processes}
+              />
             )}
           />
           <Route
@@ -35,8 +40,15 @@ function App() {
           />
           <Route
             path='/'
-            render={(props) => <CourseTable processes={processes} setProcesses={setProcesses} />}
+            render={(props) => (
+              <CourseTable
+                processes={processes}
+                setProcesses={setProcesses}
+              
+              />
+            )}
           />
+         
         </Switch>
       </Router>
     </div>
