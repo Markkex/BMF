@@ -1,15 +1,19 @@
-import { Box, Modal } from "@mui/material";
-import React, { FC, useState } from "react";
-import LaunchIcon from "@mui/icons-material/Launch";
+import React, { FC } from "react";
+import CheckIcon from "@mui/icons-material/Check";
+import { updateDoc, doc } from "firebase/firestore";
+import { db } from "../firebase";
 interface Props {
-  setProcesses: (val: any) => void;
-  processes: Array<any>;
+  setUpdating: (any: any) => void;
+  processes: any;
 }
-const CourseTable: FC<Props> = ({ processes, setProcesses }) => {
+const CourseTable: FC<Props> = ({ setUpdating, processes }) => {
+  const incourse = processes.filter(function (process: any) {
+    return process.isActive === 1;
+  });
+
   const diferenceDates = (value: any) => {
     const dateNow = new Date();
     const dateCreation = new Date(`${value}`);
-
     const diffTime = Math.abs(dateNow.valueOf() - dateCreation.valueOf());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
@@ -20,6 +24,15 @@ const CourseTable: FC<Props> = ({ processes, setProcesses }) => {
     const dateVisit = visitDate.toLocaleDateString();
     return dateVisit;
   };
+
+  const updateProcess = async (id: any) => {
+    const userDoc = doc(db, "processes", id);
+    const newFields = { isActive: 0 };
+    await updateDoc(userDoc, newFields);
+    setUpdating(true);
+    setUpdating(false);
+  };
+
   return (
     <div className='coursetable'>
       <table>
@@ -34,9 +47,9 @@ const CourseTable: FC<Props> = ({ processes, setProcesses }) => {
             <th>Dias em Curso</th>
           </tr>
         </thead>
-        {processes.map((process: any) => (
-          <tbody>
-            <tr>
+        <tbody>
+          {incourse.map((process: any) => (
+            <tr key={process.id}>
               <td>{process.processNumber}</td>
               <td>{process.vRef}</td>
               <td>{process.clientName}</td>
@@ -45,11 +58,11 @@ const CourseTable: FC<Props> = ({ processes, setProcesses }) => {
               <td>{dateVisitTrimmed(process.visitDate)}</td>
               <td>{diferenceDates(process.creationDate)}</td>
               <td>
-                <LaunchIcon />
+                <CheckIcon onClick={() => updateProcess(process.id)} />
               </td>
             </tr>
-          </tbody>
-        ))}
+          ))}
+        </tbody>
       </table>
     </div>
   );

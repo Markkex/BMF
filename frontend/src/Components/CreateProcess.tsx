@@ -2,13 +2,14 @@ import React, { FC, useState } from "react";
 import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
 import { DateTimePicker, LocalizationProvider } from "@material-ui/lab";
 import { Button, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 interface Props {
-  setProcesses: (val: any) => void;
-  processes: Array<any>;
+  setUpdating: (any: any) => void;
 }
 
-const CreateProcess: FC<Props> = ({ setProcesses, processes }) => {
+const CreateProcess: FC<Props> = ({ setUpdating }) => {
   const [creationDate, setCreationDate] = useState<Date | string>(new Date());
   const [visitDate, setVisitDate] = useState<Date | string>(new Date());
 
@@ -27,38 +28,43 @@ const CreateProcess: FC<Props> = ({ setProcesses, processes }) => {
   const [clientContact, setClientContact] = useState<string>();
   const [latitude, setLatitude] = useState<string>();
   const [longitude, setLongitude] = useState<string>();
-  
+  const [distance, setDistance] = useState<string>();
+  const createProcess = async () => {
+    const processCollectionRef = collection(db, "processes");
+    await addDoc(processCollectionRef, {
+      creationDate: creationDate.toString(),
+      visitDate: visitDate.toString(),
+      entity: entity,
+      appraiser: appraiser,
+      processNumber: processNumber,
+      vRef: vRef,
+      interiorVisit: interiorVisit,
+      houseType: houseType,
+      address: address,
+      district: district,
+      county: county,
+      parish: parish,
+      bank: bank,
+      clientName: clientName,
+      clientContact: clientContact,
+      latitude: latitude,
+      longitude: longitude,
+      distance: distance,
+      isActive: 1
+    });
+    setUpdating(true);
+    setUpdating(false);
+  };
 
   const handleForm = (e: React.FormEvent) => {
     e.preventDefault();
-    setProcesses([
-      ...processes,
-      {
-        creationDate: creationDate.toString(),
-        visitDate: visitDate.toString(),
-        entity: entity,
-        appraiser: appraiser,
-        processNumber: processNumber,
-        vRef: vRef,
-        interiorVisit: interiorVisit,
-        houseType: houseType,
-        address: address,
-        district: district,
-        county: county,
-        parish: parish,
-        bank: bank,
-        clientName: clientName,
-        clientContact: clientContact,
-        latitude: latitude,
-        longitude: longitude,
-        
-      },
-    ]);
+    createProcess();
   };
 
   const handlePickerVisit = (value: any) => {
     setVisitDate(value);
   };
+
   const handlePickerCreation = (value: any) => {
     setCreationDate(value);
   };
@@ -126,8 +132,8 @@ const CreateProcess: FC<Props> = ({ setProcesses, processes }) => {
             label='Visita pelo interior'
             onChange={(e) => setInteriorVisit(e.target.value)}
           >
-            <MenuItem value={"yes"}>Sim</MenuItem>
-            <MenuItem value={"no"}>Não</MenuItem>
+            <MenuItem value={"sim"}>Sim</MenuItem>
+            <MenuItem value={"nao"}>Não</MenuItem>
           </Select>
           <InputLabel id='HouseType'>Tipo de Imóvel</InputLabel>
           <Select
@@ -137,20 +143,20 @@ const CreateProcess: FC<Props> = ({ setProcesses, processes }) => {
             label='Tipo de Imóvel'
             onChange={(e) => setHouseType(e.target.value)}
           >
-            <MenuItem value={1}>Apartamento</MenuItem>
-            <MenuItem value={2}>Moradia</MenuItem>
-            <MenuItem value={3}>Comércio</MenuItem>
-            <MenuItem value={4}>Serviços</MenuItem>
-            <MenuItem value={5}>Escritório</MenuItem>
-            <MenuItem value={6}>Armazém</MenuItem>
-            <MenuItem value={7}>Arrecadação</MenuItem>
-            <MenuItem value={8}>Estac. / Garagem</MenuItem>
-            <MenuItem value={9}>Terreno Urbano</MenuItem>
-            <MenuItem value={10}>Terreno Industrial</MenuItem>
-            <MenuItem value={11}>Terreno Rústico</MenuItem>
-            <MenuItem value={12}>Herdade</MenuItem>
-            <MenuItem value={13}>Prédio</MenuItem>
-            <MenuItem value={14}>Outros</MenuItem>
+            <MenuItem value={"Apartamento"}>Apartamento</MenuItem>
+            <MenuItem value={"Moradia"}>Moradia</MenuItem>
+            <MenuItem value={"Comércio"}>Comércio</MenuItem>
+            <MenuItem value={"Serviços"}>Serviços</MenuItem>
+            <MenuItem value={"Escritório"}>Escritório</MenuItem>
+            <MenuItem value={"Armazém"}>Armazém</MenuItem>
+            <MenuItem value={"Arrecadação"}>Arrecadação</MenuItem>
+            <MenuItem value={"Estac. / Garagem"}>Estac. / Garagem</MenuItem>
+            <MenuItem value={"Terreno Urbano"}>Terreno Urbano</MenuItem>
+            <MenuItem value={"Terreno Industrial"}>Terreno Industrial</MenuItem>
+            <MenuItem value={"Terreno Rústico"}>Terreno Rústico</MenuItem>
+            <MenuItem value={"Herdade"}>Herdade</MenuItem>
+            <MenuItem value={"Prédio"}>Prédio</MenuItem>
+            <MenuItem value={"Outros"}>Outros</MenuItem>
           </Select>
         </div>
         <div className='locationdetails'>
@@ -212,8 +218,14 @@ const CreateProcess: FC<Props> = ({ setProcesses, processes }) => {
             label='Longitude'
             onChange={(e) => setLongitude(e.target.value)}
           />
+           <TextField
+            id='Distancia'
+            variant='outlined'
+            label='Distância'
+            onChange={(e) => setDistance(e.target.value)}
+          />
         </div>
-        <div className="buttonprint">
+        <div className='buttonprint'>
           <Button type='submit' variant='contained'>
             Criar Novo Processo
           </Button>
