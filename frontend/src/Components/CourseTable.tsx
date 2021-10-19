@@ -1,13 +1,19 @@
-import React, { FC } from "react";
+import React, { FC, Fragment, useState } from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
+import { Modal } from "@mui/material";
+import ModalData from "./ModalData";
 interface Props {
   setUpdating: (any: any) => void;
   processes: any;
 }
 const CourseTable: FC<Props> = ({ setUpdating, processes }) => {
-  const incourse = processes.filter(function (process: any) {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const inCourse = processes.filter(function (process: any) {
     return process.isActive === 1;
   });
 
@@ -25,16 +31,8 @@ const CourseTable: FC<Props> = ({ setUpdating, processes }) => {
     return dateVisit;
   };
 
-  const updateProcess = async (id: any) => {
-    const userDoc = doc(db, "processes", id);
-    const newFields = { isActive: 0 };
-    await updateDoc(userDoc, newFields);
-    setUpdating(true);
-    setUpdating(false);
-  };
-
   return (
-    <div className='coursetable'>
+    <div className="coursetable">
       <table>
         <thead>
           <tr>
@@ -48,19 +46,24 @@ const CourseTable: FC<Props> = ({ setUpdating, processes }) => {
           </tr>
         </thead>
         <tbody>
-          {incourse.map((process: any) => (
-            <tr key={process.id}>
-              <td>{process.processNumber}</td>
-              <td>{process.vRef}</td>
-              <td>{process.clientName}</td>
-              <td>{process.clientContact}</td>
-              <td>{process.address}</td>
-              <td>{dateVisitTrimmed(process.visitDate)}</td>
-              <td>{diferenceDates(process.creationDate)}</td>
-              <td>
-                <CheckIcon onClick={() => updateProcess(process.id)} />
-              </td>
-            </tr>
+          {inCourse.map((process: any) => (
+            <Fragment>
+              <tr key={process.id}>
+                <td>{process.processNumber}</td>
+                <td>{process.vRef}</td>
+                <td>{process.clientName}</td>
+                <td>{process.clientContact}</td>
+                <td>{process.address}</td>
+                <td>{dateVisitTrimmed(process.visitDate)}</td>
+                <td>{diferenceDates(process.creationDate)}</td>
+                <td>
+                  <CheckIcon onClick={handleOpen} />
+                </td>
+              </tr>
+              <Modal open={open} onClose={handleClose}>
+                <ModalData process={process} setUpdating={setUpdating} />
+              </Modal>
+            </Fragment>
           ))}
         </tbody>
       </table>

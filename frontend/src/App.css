@@ -114,6 +114,12 @@ th {
   width: 80%;
 }
 
+.modallayout {
+  background-color: white;
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+}
 @media print {
   .printimage {
     display: flex;
