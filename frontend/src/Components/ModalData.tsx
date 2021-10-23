@@ -44,8 +44,8 @@ const ModalData: FC<Props> = ({ process, setUpdating }) => {
   const finishProcess = async (id: any) => {
     const userDoc = doc(db, "processes", id);
     const newFields = {
-      creationDate: creationDate,
-      visitDate: visitDate,
+      creationDate: creationDate.toString(),
+      visitDate: visitDate.toString(),
       entity: entity,
       appraiser: appraiser,
       processNumber: processNumber,

@@ -5,25 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CreateProcess from "./Components/CreateProcess";
 import DataTable from "./Components/DataTable";
 import CourseTable from "./Components/CourseTable";
-import { Modal } from "@mui/material";
-import {
-  collection,
-  getDocs,
-  updateDoc,
-  doc,
-  deleteDoc,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
-{
-  /* 
-
-React Router
-Material-ui
-Material-ui icons
-Axios
-
- */
-}
 
 function App() {
   const [processes, setProcesses] = useState<Array<any>>([]);
@@ -38,19 +21,21 @@ function App() {
     setProcesses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
-
   return (
-    <div className='App'>
+    <div className="App">
       <Router>
         <Menu />
         <Switch>
-          <Route path='/novoprocesso' render={(props) => <CreateProcess setUpdating={setUpdating} />} />
           <Route
-            path='/processosconcluidos'
+            path="/novoprocesso"
+            render={(props) => <CreateProcess setUpdating={setUpdating} />}
+          />
+          <Route
+            path="/processosconcluidos"
             render={(props) => <DataTable processes={processes} />}
           />
           <Route
-            path='/'
+            path="/"
             render={(props) => (
               <CourseTable processes={processes} setUpdating={setUpdating} />
             )}
